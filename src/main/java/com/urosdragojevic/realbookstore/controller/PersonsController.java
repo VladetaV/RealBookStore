@@ -44,6 +44,7 @@ public class PersonsController {
     public String self(Model model, Authentication authentication, HttpSession session) {
         User user = (User) authentication.getPrincipal();
         model.addAttribute("person", personRepository.get("" + user.getId()));
+        model.addAttribute("CSRF_TOKEN", session.getAttribute("CSRF_TOKEN"));
         return "person";
     }
 
@@ -68,7 +69,6 @@ public class PersonsController {
     @GetMapping("/persons")
     public String persons(Model model, HttpSession session) {
         model.addAttribute("persons", personRepository.getAll());
-        model.addAttribute("CSRF_TOKEN", session.getAttribute("CSRF_TOKEN"));
         return "persons";
     }
 
