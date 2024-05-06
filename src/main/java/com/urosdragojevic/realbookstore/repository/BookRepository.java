@@ -4,6 +4,7 @@ import com.urosdragojevic.realbookstore.audit.AuditLogger;
 import com.urosdragojevic.realbookstore.domain.Book;
 import com.urosdragojevic.realbookstore.domain.Genre;
 import com.urosdragojevic.realbookstore.domain.NewBook;
+import groovy.util.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -36,12 +37,13 @@ public class BookRepository {
                 bookList.add(book);
             }
         } catch (SQLException e) {
+            LOG.error("Failed to fetch all books from database");
             e.printStackTrace();
         }
         return bookList;
     }
 
-    public List<Book> search(String searchTerm) throws SQLException {
+    public List<Book> search(String searchTerm)  {
         List<Book> bookList = new ArrayList<>();
         String query = "SELECT DISTINCT b.id, b.title, b.description, b.author FROM books b, books_to_genres bg, genres g" +
                 " WHERE b.id = bg.bookId" +
@@ -54,6 +56,9 @@ public class BookRepository {
             while (rs.next()) {
                 bookList.add(createBookFromResultSet(rs));
             }
+        }catch (SQLException ex){
+            LOG.warn("Failed to find books for searchterm: " + searchTerm);
+            ex.printStackTrace();
         }
         return bookList;
     }
@@ -67,6 +72,7 @@ public class BookRepository {
                 return createBookFromResultSet(rs);
             }
         } catch (SQLException e) {
+            LOG.warn("Failed to find a book with id:" + bookId);
             e.printStackTrace();
         }
         return null;
@@ -94,11 +100,13 @@ public class BookRepository {
                         statement2.setInt(2, genre.getId());
                         statement2.executeUpdate();
                     } catch (SQLException e) {
+                        LOG.error("Failed to insert into book_to_genres for bookId:" + finalId);
                         e.printStackTrace();
                     }
                 });
             }
         } catch (SQLException e) {
+            LOG.error("Failed to create a new book with title: " + book.getTitle());
             e.printStackTrace();
         }
         return id;
@@ -117,6 +125,7 @@ public class BookRepository {
             statement.executeUpdate(query3);
             statement.executeUpdate(query4);
         } catch (SQLException e) {
+            LOG.error("Failed to delete a book with id: " + bookId);
             e.printStackTrace();
         }
     }

@@ -65,6 +65,7 @@ public class PersonsController {
         if(usrId == id || hasauth) {
             personRepository.delete(id);
             userRepository.delete(id);
+            AuditLogger.getAuditLogger(PersonsController.class).audit("Deleted person with id: " + id);
         }else{
             throw new ActionException("Forbidden action!");
         }
@@ -85,6 +86,7 @@ public class PersonsController {
         boolean hasauth = usr.getAuthorities().contains(new SimpleGrantedAuthority("UPDATE_PERSON"));
         if(usrId == id || hasauth) {
             personRepository.update(person);
+            AuditLogger.getAuditLogger(PersonsController.class).audit("Updated person with id: " + id);
         }else{
             throw new ActionException("Forbidden action!");
         }

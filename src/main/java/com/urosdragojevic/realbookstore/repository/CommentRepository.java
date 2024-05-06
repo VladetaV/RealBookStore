@@ -33,6 +33,7 @@ public class CommentRepository {
             preparedStatement.setString(3,comment.getComment());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            LOG.error("Failed to insert a comment in database for book with id: " + comment.getBookId());
             e.printStackTrace();
         }
     }
@@ -47,6 +48,7 @@ public class CommentRepository {
                 commentList.add(new Comment(rs.getInt(1), rs.getInt(2), rs.getString(3)));
             }
         } catch (SQLException e) {
+            LOG.error("Failed to get comments for book with id: " + bookId);
             e.printStackTrace();
         }
         return commentList;

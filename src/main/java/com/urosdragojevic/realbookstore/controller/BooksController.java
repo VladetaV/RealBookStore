@@ -1,5 +1,6 @@
 package com.urosdragojevic.realbookstore.controller;
 
+import com.urosdragojevic.realbookstore.audit.AuditLogger;
 import com.urosdragojevic.realbookstore.domain.*;
 import com.urosdragojevic.realbookstore.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +88,7 @@ public class BooksController {
         List<Genre> genreList = this.genreRepository.getAll();
         List<Genre> genresToInsert = book.getGenres().stream().map(bookGenreId -> genreList.stream().filter(genre -> genre.getId() == bookGenreId).findFirst().get()).collect(Collectors.toList());
         long id = bookRepository.create(book, genresToInsert);
+        AuditLogger.getAuditLogger(BooksController.class).audit("Created book with title: " + book.getTitle());
         return "redirect:/books?id=" + id;
     }
 }

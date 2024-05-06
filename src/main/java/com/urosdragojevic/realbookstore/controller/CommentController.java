@@ -1,5 +1,6 @@
 package com.urosdragojevic.realbookstore.controller;
 
+import com.urosdragojevic.realbookstore.audit.AuditLogger;
 import com.urosdragojevic.realbookstore.domain.Comment;
 import com.urosdragojevic.realbookstore.domain.User;
 import com.urosdragojevic.realbookstore.repository.CommentRepository;
@@ -27,7 +28,7 @@ public class CommentController {
         User user = (User) authentication.getPrincipal();
         comment.setUserId(user.getId());
         commentRepository.create(comment);
-
+        AuditLogger.getAuditLogger(CommentController.class).audit("Created comment for book with id: " + comment.getBookId());
         return "redirect:/books/" + comment.getBookId();
     }
 }

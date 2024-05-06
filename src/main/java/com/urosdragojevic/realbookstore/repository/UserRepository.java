@@ -34,6 +34,7 @@ public class UserRepository {
                 return new User(id, username1, password);
             }
         } catch (SQLException e) {
+            LOG.warn("Failed to find a user with username: " + username);
             e.printStackTrace();
         }
         return null;
@@ -46,6 +47,7 @@ public class UserRepository {
              ResultSet rs = statement.executeQuery(query)) {
             return rs.next();
         } catch (SQLException e) {
+            LOG.error("Failed to validate user with username: " + username);
             e.printStackTrace();
         }
         return false;
@@ -58,6 +60,7 @@ public class UserRepository {
         ) {
             statement.executeUpdate(query);
         } catch (SQLException e) {
+            LOG.error("Failed to delete a user with id: " + userId);
             e.printStackTrace();
         }
     }
