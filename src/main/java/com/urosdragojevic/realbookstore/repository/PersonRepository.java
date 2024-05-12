@@ -34,7 +34,6 @@ public class PersonRepository {
             }
         } catch (SQLException e) {
             LOG.error("Failed to get all persons from database");
-            e.printStackTrace();
         }
         return personList;
     }
@@ -51,7 +50,6 @@ public class PersonRepository {
             }
         }catch (SQLException ex){
             LOG.warn("Failed to get persons from database for searchterm: " + searchTerm);
-            ex.printStackTrace();
         }
         return personList;
     }
@@ -66,7 +64,6 @@ public class PersonRepository {
             }
         } catch (SQLException e) {
             LOG.error("Failed to fetch person with id: " + personId);
-            e.printStackTrace();
         }
 
         return null;
@@ -80,7 +77,6 @@ public class PersonRepository {
             statement.executeUpdate(query);
         } catch (SQLException e) {
             LOG.error("Failed to delete person with id: " + personId);
-            e.printStackTrace();
         }
     }
 
@@ -106,7 +102,6 @@ public class PersonRepository {
             statement.executeUpdate();
         } catch (SQLException e) {
             LOG.warn("Failed to update person with name: " + personUpdate.getFirstName());
-            e.printStackTrace();
         }
     }
 }

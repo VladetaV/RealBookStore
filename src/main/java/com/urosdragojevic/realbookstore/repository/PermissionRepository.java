@@ -37,7 +37,6 @@ public class PermissionRepository {
             }
         } catch (SQLException e) {
             LOG.error("Failed to get permissions using roleId" + roleId);
-            e.printStackTrace();
         }
         return permissions;
     }

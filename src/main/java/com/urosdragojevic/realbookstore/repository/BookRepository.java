@@ -38,7 +38,6 @@ public class BookRepository {
             }
         } catch (SQLException e) {
             LOG.error("Failed to fetch all books from database");
-            e.printStackTrace();
         }
         return bookList;
     }
@@ -58,7 +57,6 @@ public class BookRepository {
             }
         }catch (SQLException ex){
             LOG.warn("Failed to find books for searchterm: " + searchTerm);
-            ex.printStackTrace();
         }
         return bookList;
     }
@@ -73,7 +71,6 @@ public class BookRepository {
             }
         } catch (SQLException e) {
             LOG.warn("Failed to find a book with id:" + bookId);
-            e.printStackTrace();
         }
         return null;
     }
@@ -101,13 +98,11 @@ public class BookRepository {
                         statement2.executeUpdate();
                     } catch (SQLException e) {
                         LOG.error("Failed to insert into book_to_genres for bookId:" + finalId);
-                        e.printStackTrace();
                     }
                 });
             }
         } catch (SQLException e) {
             LOG.error("Failed to create a new book with title: " + book.getTitle());
-            e.printStackTrace();
         }
         return id;
     }
@@ -126,7 +121,6 @@ public class BookRepository {
             statement.executeUpdate(query4);
         } catch (SQLException e) {
             LOG.error("Failed to delete a book with id: " + bookId);
-            e.printStackTrace();
         }
     }
 

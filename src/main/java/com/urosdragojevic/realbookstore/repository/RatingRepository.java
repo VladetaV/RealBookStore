@@ -46,7 +46,6 @@ public class RatingRepository {
             }
         } catch (SQLException e) {
             LOG.error("Failed to update/create ratings for book: " + rating.getBookId());
-            e.printStackTrace();
         }
     }
 
@@ -61,7 +60,6 @@ public class RatingRepository {
             }
         } catch (SQLException e) {
             LOG.error("Failed to fetch all ratings for book with id: " + bookId);
-            e.printStackTrace();
         }
         return ratingList;
     }
